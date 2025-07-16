@@ -65,6 +65,11 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 devtools::install_github("IOR-Bioinformatics/PCSF", repos=BiocManager::repositories(),
                          dependencies=TRUE, type="source", force=TRUE)
+
+#Install metabaser
+install.packages("BiocManager")
+devtools::install_github("apinstein/metabaser", repos=BiocManager::repositories(),
+                         dependencies=TRUE, type="source", force=TRUE)
 ```
 
 ### 2.2 Set up configure files
