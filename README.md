@@ -52,7 +52,7 @@ cran_packages=c("shiny", "shinythemes", "shinyalert", "shinyjqui", "shinyjs", "c
 "plotly", "reshape2", "tidyverse", "gplots", "ggpubr", "svgPanZoom", "WGCNA","drc", "heatmaply","dendextend",
 "gridExtra", "ggrepel", "RColorBrewer", "pheatmap", "rgl", "car", "colourpicker", "VennDiagram", "factoextra",
 "openxlsx", "visNetwork", "cowplot", "circlize", "svglite", "Hmisc", "ggrastr", "ggpmisc","ggprism",
-"ggExtra", "networkD3", "vctrs", "ragg", "textshaping", "stringi", "plyr", "png", "psych", "broom", "rclipboard","RMariaDB")
+"ggExtra", "networkD3", "vctrs", "ragg", "textshaping", "stringi", "plyr", "png", "psych", "broom", "rclipboard","RMariaDB","rsvg")
 
 #Note: Hmisc is not required to run the Shiny app but is needed to prepare network data from expression matrix.
 install.packages(cran_packages, repos="http://cran.r-project.org/")  #choose repos based on your location if needed
