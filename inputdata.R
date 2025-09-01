@@ -222,6 +222,25 @@ DataReactiveRData <- reactive({
       }
       validate(need(file.exists(file1), message = "File does NOT exist."))
       load(file1)
+
+      # Save to unlisted/ if requested
+      if (!is.null(input$savetoserver) && input$savetoserver == "YES") {
+        # Ensure unlisted directory exists
+        dir.create("unlisted", showWarnings = FALSE, recursive = TRUE)
+
+        # Define target path
+        target_file <- file.path("unlisted", paste0(ProjectID, ".RData"))
+
+        # Copy the uploaded file to unlisted/
+        file.copy(from = file1, to = target_file, overwrite = TRUE)
+
+        # Optional: confirm it worked
+        if (file.exists(target_file)) {
+          message("Saved uploaded RData to: ", target_file)
+        } else {
+          warning("Failed to save .RData to unlisted/: ", target_file)
+        }
+      }
     }
 
     if (input$select_dataset == "Upload RData File" & !is.null(input$file1)) {
@@ -231,12 +250,14 @@ DataReactiveRData <- reactive({
       file1 <- input$file1$datapath
       file2 <- input$file2$datapath
       ProjectPath <- "temp/"
+
       if (is.null(file1) || !file.exists(file1)) {
         shinyalert("Oops!", "File does NOT exist.", showConfirmButton = FALSE, showCancelButton = TRUE, type = "error")
       }
       validate(need(file.exists(file1), message = "File does NOT exist."))
       load(file1)
     }
+
 
     returnlist[["ProjectID"]] <- str_trim(ProjectID)
     returnlist[["Name"]] <- str_trim(ProjectName)
