@@ -872,6 +872,46 @@ server <- function(input, output, session) {
     removeTab(session = session, inputId = "menu", target = modulelist[14])
     saved_setting$value <- saved_setting$value[saved_setting$value != modulelist[14]]
   })
+
+  observeEvent(input$customData,
+    {
+      # Only act if uploading RData file
+      if (input$select_dataset != "Upload RData File") {
+        return()
+      }
+      if (is.null(input$file1)) {
+        return()
+      }
+
+      # Get values
+      ProjectID <- isolate(input$project_name) # Use project_name as ID
+      if (is.null(ProjectID) || trimws(ProjectID) == "") {
+        ProjectID <- str_replace(input$file1$name, "\\.RData$", "", ignore.case = TRUE)
+      }
+
+      # Paths
+      temp_rdata <- input$file1$datapath
+      target_file <- file.path("unlisted", paste0(ProjectID, ".RData"))
+
+      # Only save if requested
+      if (!is.null(input$savetoserver) && input$savetoserver == "YES") {
+        dir.create("unlisted", showWarnings = FALSE, recursive = TRUE)
+        success <- tryCatch(
+          {
+            file.copy(from = temp_rdata, to = target_file, overwrite = TRUE)
+          },
+          error = function(e) FALSE
+        )
+
+        if (success) {
+          message("Saved .RData to unlisted/: ", target_file)
+        } else {
+          warning("Failed to save .RData to unlisted/: ", target_file)
+        }
+      }
+    },
+    ignoreNULL = TRUE
+  )
 }
 
 shinyApp(ui, server)
